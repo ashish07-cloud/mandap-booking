@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="booking-container">
+  <div class="booking-header">
+    <h1 class="page-title logo-text font-bold">Reserve {{ hall.name }}</h1>
+    <p class="page-subtitle">Pick your date and any extra services.</p>
+  </div>
+
+  <div class="booking-card">
+    <div class="booking-form-container">
+      <form method="post" class="booking-form">
+        {% csrf_token %}
+
+        {{ form.customer_name.label_tag }}   {{ form.customer_name }}<br>
+        {{ form.customer_phone.label_tag }}  {{ form.customer_phone }}<br>
+        {{ form.guest_count.label_tag }}     {{ form.guest_count }}<br>
+        {{ form.date.label_tag }}            {{ form.date }}<br>
+        {{ form.time_slot.label_tag }}       {{ form.time_slot }}<br>
+        {{ form.notes.label_tag }}           {{ form.notes }}<br>
+
+        <!-- Catering Services -->
+        <fieldset class="service-group">
+          <legend>Catering Services</legend>
+          {% for field in form %}
+            {% if field.name|slice:"0:9" == "catering_" %}
+              <div class="service-item">
+                {{ field }} {{ field.label_tag }}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+
+        <!-- Photography Services -->
+        <fieldset class="service-group">
+          <legend>Photography Services</legend>
+          {% for field in form %}
+            {% if field.name|slice:"0:6" == "photo_" %}
+              <div class="service-item">
+                {{ field }} {{ field.label_tag }}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+
+        <!-- Transport Services -->
+        <fieldset class="service-group">
+          <legend>Transport Services</legend>
+          {% for field in form %}
+            {% if field.name|slice:"0:10" == "transport_" %}
+              <div class="service-item">
+                {{ field }} {{ field.label_tag }}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+
+        <!-- Security Services -->
+        <fieldset class="service-group">
+          <legend>Security Services</legend>
+          {% for field in form %}
+            {% if field.name|slice:"0:9" == "security_" %}
+              <div class="service-item">
+                {{ field }} {{ field.label_tag }}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+
+        <!-- Decoration Services -->
+        <fieldset class="service-group">
+          <legend>Decoration Services</legend>
+          {% for field in form %}
+            {% if field.name|slice:"0:6" == "decor_" %}
+              <div class="service-item">
+                {{ field }} {{ field.label_tag }}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+
+        <button type="submit" class="btn-submit">
+          Reserve Now <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+
+
+
+        <!-- Right: Hall Image Preview -->
+        <div class="hall-image-preview" style="background-image: url('{{ hall.image.url }}');"></div>
+    </div>
+
+    <!-- Hall Features -->
+    <div class="booking-features">
+        <div class="feature">
+            <i class="fas fa-users"></i>
+            <h3>Capacity</h3>
+            <p>{{ hall.capacity }} guests</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Location</h3>
+            <p>{{ hall.location }}</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-star"></i>
+            <h3>Rating</h3>
+            <p>4.8/5 (120 reviews)</p>
+        </div>
+    </div>
+</div>
+
+<!-- Include Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- jQuery and jQuery UI -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<style>
+:root {
+    --gold: #D4AF37;
+    --deep-red: #8B0000;
+    --saffron: #FF9933;
+    --royal-blue: #002147;
+    --light-bg: #f9f7f7;
+    --form-bg: #fff7f0;
+    --text-dark: #1a1a1a;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+}
+
+.page-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3.8rem;
+    font-weight: 600;
+    text-align: center;
+    background: linear-gradient(to right, var(--gold), var(--saffron));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--deep-red);
+    font-weight: 400;
+}
+
+.booking-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.booking-card {
+    display: flex;
+    border-radius: 18px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background: var(--form-bg);
+    margin-bottom: 3rem;
+}
+
+.booking-form-container {
+    flex: 1;
+    padding: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.hall-image-preview {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    min-height: 420px;
+    position: relative;
+}
+
+.hall-image-preview::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom right, rgba(0,0,0,0.3), rgba(255,255,255,0.1));
+}
+
+/* Form Styling */
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border 0.3s ease;
+    background-color: #fff;
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    border-color: var(--saffron);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,153,51,0.2);
+}
+
+/* Fieldsets */
+.service-group {
+    border: 2px dashed var(--gold);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background-color: #fffef9;
+}
+
+.service-group legend {
+    font-weight: bold;
+    color: var(--royal-blue);
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+}
+
+.service-item {
+    margin-bottom: 0.5rem;
+}
+
+/* Submit Button */
+.btn-submit {
+    background: linear-gradient(to right, var(--gold), var(--saffron));
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(to right, var(--saffron), var(--gold));
+    transform: translateY(-2px);
+}
+
+.btn-submit i {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.btn-submit:hover i {
+    transform: translateX(5px);
+}
+
+/* Booking Features */
+.booking-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature {
+    background: white;
+    padding: 1.8rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.feature i {
+    font-size: 2.5rem;
+    color: var(--deep-red);
+    margin-bottom: 1rem;
+}
+
+.feature h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--royal-blue);
+    font-size: 1.3rem;
+}
+
+.feature p {
+    color: #444;
+    font-size: 1rem;
+}
+
+/* Datepicker */
+.ui-datepicker {
+    background: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 15px;
+    z-index: 99999 !important;
+}
+
+.ui-datepicker-header {
+    background: linear-gradient(to right, var(--gold), var(--saffron));
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: var(--deep-red) !important;
+    color: white !important;
+    border-radius: 50% !important;
+}
+
+.booked-date a {
+    background-color: #e74c3c !important;
+    color: white !important;
+    border-radius: 50% !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .booking-card {
+        flex-direction: column;
+    }
+    .hall-image-preview {
+        min-height: 250px;
+    }
+    .page-title {
+        font-size: 2.5rem;
+    }
+}
+</style>
+
+
+
+
+<script>
+$(function() {
+    var bookedDates = [];   
+
+    $.ajax({
+        url: "{% url 'booking:get_booked_dates' hall.id %}",
+        method: "GET",
+        success: function(data) {
+            bookedDates = data.booked_dates;
+
+            $("#id_date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 0,
+                beforeShowDay: function(date) {
+                    var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                    if (bookedDates.includes(formattedDate)) {
+                        return [false, 'booked-date', 'Already Booked'];
+                    }
+                    return [true, '', 'Available'];
+                }
+            });
+        }
+    });
+    
+    // Add animation to form elements
+    $(".form-group input, .form-group select, .form-group textarea").focus(function() {
+        $(this).parent().find("label").css("color", "var(--primary)");
+    }).blur(function() {
+        $(this).parent().find("label").css("color", "var(--dark)");
+    });
+});
+</script>
+{% endblock %}

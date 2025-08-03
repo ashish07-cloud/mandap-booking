@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}{{ edit|default:False|yesno:"Edit Hall,Add New Hall" }} - Mandap{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="max-w-4xl mx-auto px-6 py-10">
+    <!-- Form Header -->
+    <div class="mb-10 text-center">
+        <h2 class="text-4xl font-bold font-[Cinzel] text-[var(--deep-red)] flex items-center justify-center">
+            {% if edit %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-[var(--royal-blue)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-[var(--saffron)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            {% endif %}
+            {{ edit|default:False|yesno:"Edit Hall,Add New Hall" }}
+        </h2>
+        <p class="text-gray-600 mt-2 italic">
+            {% if edit %}
+            Update your hall to attract more weddings!
+            {% else %}
+            List your beautiful venue to start your Mandap journey.
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white rounded-2xl shadow-lg border-l-4 border-[var(--gold)]">
+        <form method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+            {% csrf_token %}
+
+            <!-- Hall Name -->
+            <div>
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-semibold text-[var(--deep-red)] mb-1">
+                    Hall Name <span class="text-red-500">*</span>
+                </label>
+                {{ form.name }}
+                {% if form.name.errors %}<p class="text-sm text-red-600 mt-1">{{ form.name.errors.as_text }}</p>{% endif %}
+            </div>
+
+            <!-- Location -->
+            <div>
+                <label for="{{ form.location.id_for_label }}" class="block text-sm font-semibold text-[var(--deep-red)] mb-1">
+                    Location <span class="text-red-500">*</span>
+                </label>
+                {{ form.location }}
+                {% if form.location.errors %}<p class="text-sm text-red-600 mt-1">{{ form.location.errors.as_text }}</p>{% endif %}
+            </div>
+
+            <!-- Price -->
+            <div>
+                <label for="{{ form.price.id_for_label }}" class="block text-sm font-semibold text-[var(--deep-red)] mb-1">
+                    Price (in ₹) <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500">₹</span>
+                    </div>
+                    {{ form.price }}
+                </div>
+                {% if form.price.errors %}<p class="text-sm text-red-600 mt-1">{{ form.price.errors.as_text }}</p>{% endif %}
+            </div>
+
+            <!-- Capacity -->
+            <div>
+                <label for="{{ form.capacity.id_for_label }}" class="block text-sm font-semibold text-[var(--deep-red)] mb-1">
+                    Capacity <span class="text-red-500">*</span>
+                </label>
+                {{ form.capacity }}
+                {% if form.capacity.errors %}<p class="text-sm text-red-600 mt-1">{{ form.capacity.errors.as_text }}</p>{% endif %}
+            </div>
+
+            <!-- Image -->
+            <div>
+                <label for="{{ form.image.id_for_label }}" class="block text-sm font-semibold text-[var(--deep-red)] mb-1">
+                    Hall Image
+                </label>
+                <div class="flex items-center gap-4">
+                    <div class="relative group w-full">
+                        {% if form.instance.image %}
+                            <img id="image-preview" src="{{ form.instance.image.url }}" class="h-48 w-full object-cover rounded-lg border">
+                        {% else %}
+                            <div id="image-preview" class="h-48 w-full bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="text-white font-medium">Change Image</span>
+                        </div>
+                    </div>
+                </div>
+                <input type="file" name="image" id="{{ form.image.id_for_label }}" accept="image/*" class="hidden" onchange="previewImage(this)">
+                <button type="button" onclick="document.getElementById('{{ form.image.id_for_label }}').click()" class="mt-2 px-4 py-2 bg-[var(--saffron)] text-white rounded-md hover:bg-[var(--deep-red)] transition text-sm">
+                    Upload Image
+                </button>
+                {% if form.image.errors %}<p class="text-sm text-red-600 mt-1">{{ form.image.errors.as_text }}</p>{% endif %}
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-semibold text-[var(--deep-red)] mb-1">
+                    Description
+                </label>
+                {{ form.description }}
+                {% if form.description.errors %}<p class="text-sm text-red-600 mt-1">{{ form.description.errors.as_text }}</p>{% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-[var(--gold)] to-[var(--saffron)] text-[var(--royal-blue)] font-bold rounded-lg shadow hover:from-[var(--saffron)] hover:to-[var(--gold)] transition-transform transform hover:scale-[1.01]">
+                    {% if edit %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Update Hall
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Create Hall
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('image-preview');
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = function () {
+            if (preview.tagName === 'IMG') {
+                preview.src = reader.result;
+            } else {
+                const img = document.createElement('img');
+                img.id = 'image-preview';
+                img.src = reader.result;
+                img.className = 'h-48 w-full object-cover rounded-lg border-2 border-gray-300';
+                preview.parentNode.replaceChild(img, preview);
+            }
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+{% endblock %}

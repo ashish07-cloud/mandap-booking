@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-6 py-10">
+    <h2 class="text-3xl font-[Cinzel] text-[var(--deep-red)] font-bold mb-6 border-b-2 border-[var(--gold)] pb-2">
+        Manage Your Services
+    </h2>
+
+    {% for service_type, services in services_data %}
+    <div class="mb-8 rounded-2xl shadow-lg bg-white border-l-4 border-[var(--saffron)]">
+        <div
+            class="flex justify-between items-center bg-[var(--saffron)]/20 text-[var(--deep-red)] px-6 py-4 rounded-t-2xl">
+            <h4 class="text-xl font-semibold font-[Cinzel]">{{ service_type }} Services</h4>
+            <a href="{% url 'booking:add_service' service_type|lower %}"
+                class="bg-[var(--gold)] text-[var(--royal-blue)] px-4 py-1.5 rounded-md font-medium hover:bg-[var(--saffron)] transition">
+                + Add
+            </a>
+        </div>
+
+        <ul class="divide-y divide-gray-200">
+            {% for service in services %}
+            <li class="flex justify-between items-start px-6 py-4 bg-white hover:bg-[var(--saffron)]/10 transition">
+                <div>
+                    <p class="text-lg font-bold text-[var(--deep-red)]">{{ service.name }}</p>
+                    <p class="text-sm text-gray-700 mb-1">₹{{ service.price }}</p>
+                    <p class="text-sm text-gray-500 italic">{{ service.description|truncatewords:15 }}</p>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{% url 'booking:edit_service' service_type|lower service.pk %}"
+                        class="px-3 py-1 bg-[var(--royal-blue)] text-white rounded hover:bg-[var(--deep-red)] transition text-sm">
+                        Edit
+                    </a>
+                    <a href="{% url 'booking:delete_service' service_type|lower service.pk %}"
+                        class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition text-sm">
+                        Delete
+                    </a>
+
+                </div>
+            </li>
+            {% empty %}
+            <li class="px-6 py-4 text-gray-500">No {{ service_type }} services added yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

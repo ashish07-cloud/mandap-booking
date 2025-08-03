@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-10 px-6 py-8 bg-white shadow-xl rounded-2xl border-l-4 border-[var(--gold)]">
+    <h2 class="text-2xl font-bold font-[Cinzel] text-[var(--deep-red)] mb-6 border-b pb-2">
+        {{ action }} {{ service_type|title }} Service
+    </h2>
+
+    <form method="post" class="space-y-5">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="flex gap-4 mt-6">
+            <button type="submit" 
+                    class="px-6 py-2 bg-[var(--royal-blue)] text-white rounded-md font-medium hover:bg-[var(--deep-red)] transition">
+                {{ action }}
+            </button>
+            <a href="{% url 'booking:manage_services' %}" 
+               class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md font-medium hover:bg-gray-300 transition">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

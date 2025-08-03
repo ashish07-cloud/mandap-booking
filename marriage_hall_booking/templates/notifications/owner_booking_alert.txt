@@ -1,0 +1,15 @@
+Hello {{ owner_name }},
+
+A new booking request has been made for your hall:
+
+Hall Name: {{ hall_name }}
+Date: {{ booking_date }}
+Time Slot: {{ time_slot }}
+Customer Name: {{ customer_name }}
+Phone: {{ customer_phone }}
+Guests: {{ guest_count }}
+
+Please review and approve/reject the booking in your dashboard.
+
+Regards,  
+Mandap Notifications

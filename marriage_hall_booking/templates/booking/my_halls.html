@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}My Halls - Mandap{% endblock %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto p-6 mt-10">
+    <h2 class="text-3xl font-bold mb-6">My Halls</h2>
+
+    <a href="{% url 'booking:add_hall' %}" class="mb-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Add New Hall</a>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for hall in halls %}
+            <div class="bg-white rounded-lg shadow-md p-4">
+                {% if hall.image %}
+                    <img src="{{ hall.image.url }}" alt="{{ hall.name }}" class="h-40 w-full object-cover mb-2 rounded", loading="lazy">
+                {% else %}
+                    <div class="h-40 bg-gray-200 flex items-center justify-center mb-2">No Image</div>
+                {% endif %}
+                <h3 class="text-lg font-semibold">{{ hall.name }}</h3>
+                <p class="text-sm text-gray-600">Location: {{ hall.location }}</p>
+                <p class="text-sm text-gray-600">Price: ₹{{ hall.price }}</p>
+
+                <div class="mt-4 flex justify-between">
+                    <a href="{% url 'booking:edit_hall' hall.id %}" class="text-blue-600 hover:underline">Edit</a>
+                    <a href="{% url 'booking:delete_hall' hall.id %}" class="text-red-600 hover:underline">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No halls found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+

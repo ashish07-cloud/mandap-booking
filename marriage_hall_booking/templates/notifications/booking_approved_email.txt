@@ -1,0 +1,15 @@
+Hello {{ customer_name }},
+
+Great news! Your booking for the following venue has been **approved**:
+
+Hall Name: {{ hall_name }}
+Location: {{ hall_location }}
+Date: {{ booking_date }}
+Time Slot: {{ time_slot }}
+
+Your booking is now confirmed. A PDF invoice has also been attached with this email for your reference.
+
+We look forward to being a part of your big day!
+
+Warm wishes,  
+Team Mandap

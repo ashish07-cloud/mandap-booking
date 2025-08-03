@@ -1,0 +1,26 @@
+<!-- templates/notifications/notification_list.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Notifications</h2>
+  
+  {% if notifications %}
+    <ul>
+      {% for notification in notifications %}
+        <li>
+          <div>
+            <strong>{{ notification.notification_type }}</strong>
+            <p>{{ notification.message }}</p>
+            <small>{{ notification.created_at }}</small>
+            {% if not notification.is_read %}
+              <a href="{% url 'notifications:mark_as_read' notification.id %}">Mark as read</a>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No new notifications.</p>
+  {% endif %}
+{% endblock %}

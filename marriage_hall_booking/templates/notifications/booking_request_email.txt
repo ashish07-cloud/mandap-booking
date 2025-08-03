@@ -1,0 +1,16 @@
+Hello {{ customer_name }},
+
+Thank you for choosing Mandap for your special event!
+
+We have received your booking request for the following venue:
+
+Hall Name: {{ hall_name }}
+Location: {{ hall_location }}
+Date: {{ booking_date }}
+Time Slot: {{ time_slot }}
+Guests: {{ guest_count }}
+
+Our team will review your request and you will be notified once it is approved by the hall owner.
+
+Warm regards,  
+Team Mandap

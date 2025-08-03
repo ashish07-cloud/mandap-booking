@@ -1,0 +1,10 @@
+{% extends 'error_pages/base_error.html' %}
+
+{% block title %}400 Bad Request{% endblock %}
+
+{% block content %}
+  <i class="fas fa-bug text-red-500 text-6xl mb-4"></i>
+  <h1 class="text-4xl font-bold mb-2">400 - Bad Request</h1>
+  <p class="error-message">Kuch galat ho gaya request me. Thoda check karo bhai.</p>
+  <a href="/" class="bg-amber-700 text-white px-4 py-2 rounded hover:bg-amber-800 transition">🔙 Home</a>
+{% endblock %}

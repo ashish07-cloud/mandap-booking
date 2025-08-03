@@ -1,0 +1,14 @@
+Hello {{ customer_name }},
+
+Your request to cancel the booking at:
+
+Hall Name: {{ hall_name }}
+Date: {{ booking_date }}
+Time Slot: {{ time_slot }}
+
+has been approved by the hall owner. We’re sorry to see you go and hope to serve you in the future.
+
+If you have any questions or concerns, feel free to reach out.
+
+Best regards,  
+Team Mandap
