@@ -191,6 +191,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
 
 CSRF_TRUSTED_ORIGINS = [
     "https://mandap-app.onrender.com",
+    "mandap-booking.onrender.com",
     "https://*.ngrok-free.app",
     "https://7824-119-42-56-245.ngrok-free.app",
     "https://*.ngrok.io",
