@@ -15,7 +15,7 @@ services:
       - key: DJANGO_DEBUG
         value: False
       - key: DJANGO_ALLOWED_HOSTS
-        value: mandap-app.onrender.com
+        value: mandap-booking.onrender.com
       - key: DB_NAME
         sync: false
       - key: DB_USER
